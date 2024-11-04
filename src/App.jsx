@@ -19,8 +19,11 @@ function App() {
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={pizza} className="logo react" alt="React logo" />
+        <a
+          href="https://github.com/gokcanparlaktas/pizzachallenge"
+          target="_blank"
+        >
+          <img src={pizza} className="logo pizza" alt="Pizza logo" />
         </a>
       </div>
       <h1>Workintech + 🍕</h1>
