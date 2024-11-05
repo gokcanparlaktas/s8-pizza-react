@@ -2,10 +2,11 @@ import React from "react";
 
 export function Header() {
   return (
-    <div className="header">
-      <h1>
-        Teknolojik <br /> Yemekler
-      </h1>
+    <div className="container-lg header flex-col">
+      <div className="container-s">
+        <h1>Teknolojik Yemekler</h1>
+      </div>
+      <div className="container-md">Buraya sayfalar gelecek</div>
     </div>
   );
 }

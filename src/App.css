@@ -1,10 +1,85 @@
 .header {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  background: #ce2829;
-  font-family: "Roboto Condensed";
   color: white;
-  font-size: 1rem;
+  font-family: "Roboto Condensed";
   padding: 1rem;
+}
+.barlow {
+  font-family: "Barlow";
+}
+
+.article {
+  color: #5f5f5f;
+  font-family: "Barlow";
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 2rem;
+}
+
+.pricetag {
+  color: #5f5f5f;
+  font-weight: 700;
+  font-size: 1.7rem;
+}
+.review {
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #5f5f5f;
+  font-family: "Barlow";
+  margin: 1rem 0;
+}
+
+.bg-main {
+  background: #ce2829;
+  width: 100vw;
+  height: 100vh;
+}
+.bg-secondary {
+  background: #faf7f2;
+  width: 100vw;
+  height: 100vh;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex {
+  display: flex;
+}
+
+.container-lg {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.container-md {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.container-s {
+  max-width: 480px;
+  margin: 0 auto;
+}
+.p-ts {
+  padding: 1rem;
+}
+.gap-s {
+  gap: 1rem;
+}
+.gap-m {
+  gap: 2rem;
+}
+.between {
+  justify-content: space-between;
+}
+.margin-bottom {
+  margin-bottom: 1rem;
 }
