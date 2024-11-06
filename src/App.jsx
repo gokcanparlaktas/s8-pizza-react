@@ -60,7 +60,7 @@ function App() {
             kökenli lezzetli bir yemektir. Küçük bir pizzaya bazen pizzetta
             denir.
           </article>
-
+          {/*FORM BAŞLANGICI VE RADİO BUTTONLAR*/}
           <form className="barlow flex-col between">
             <div className="flex between margin-bottom">
               <div className="flex-col gap-s">
@@ -79,7 +79,7 @@ function App() {
                   </label>
                 ))}
               </div>
-
+              {/*DROPDOWN KISMI*/}
               <div>
                 <label htmlFor="hamur" className="flex-col">
                   <h3 className="margin-bottom">
@@ -90,7 +90,11 @@ function App() {
                       Kalınlık Seçiniz
                     </option>
                     {kalinlik.map((kalinlik) => (
-                      <option key={kalinlik.id} value={kalinlik.size}>
+                      <option
+                        className="semi-bold"
+                        key={kalinlik.id}
+                        value={kalinlik.size}
+                      >
                         {kalinlik.size}
                       </option>
                     ))}
@@ -112,7 +116,7 @@ function App() {
               <div className="grid-container">
                 {ekstralar.map((ekstra) => (
                   <div className="grid-item" key={ekstra.id}>
-                    <label className="flex gap-s margin-bottom">
+                    <label className="flex gap-s margin-bottom semi-bold">
                       <input type="checkbox" value={ekstra.name} />
                       {ekstra.name}
                     </label>
@@ -120,6 +124,27 @@ function App() {
                 ))}
               </div>
             </div>
+            {/*TEXT AREA KISMI*/}
+
+            <div className="flex-col margin-bottom-lg">
+              <label htmlFor="siparisNotu">
+                {" "}
+                <h3>Sipariş Notu:</h3>
+              </label>
+              <textarea
+                name="siparisNotu"
+                placeholder="Siparişine eklemek istediğin bir not var mı?"
+                style={{
+                  maxWidth: "960px",
+                  minWidth: "376px",
+                  borderRadius: "5px",
+                }}
+                cols={5}
+                rows={4}
+              />
+            </div>
+
+            <hr />
           </form>
         </div>
       </main>

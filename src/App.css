@@ -37,6 +37,13 @@ h2 {
   margin: 1rem 0;
 }
 
+h3 {
+  font-size: 1.3rem;
+  color: #5f5f5f;
+  font-family: "Barlow";
+  margin: 1rem 0;
+}
+
 .bg-main {
   background: #ce2829;
   width: 100vw;
@@ -45,7 +52,6 @@ h2 {
 .bg-secondary {
   background: #faf7f2;
   width: 100vw;
-  height: 100vh;
 }
 .flex-col {
   display: flex;
@@ -101,4 +107,7 @@ h2 {
 .grid-item {
   text-align: center;
   margin-bottom: 10px;
+}
+.semi-bold {
+  font-weight: 500;
 }
