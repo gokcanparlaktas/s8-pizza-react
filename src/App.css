@@ -77,9 +77,28 @@ h2 {
 .gap-m {
   gap: 2rem;
 }
+.gap-l {
+  gap: 5rem;
+}
 .between {
   justify-content: space-between;
 }
 .margin-bottom {
   margin-bottom: 1rem;
+}
+.margin-bottom-lg {
+  margin-bottom: 2rem;
+}
+.wrap {
+  flex-wrap: wrap;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 230px);
+  justify-items: start;
+}
+.grid-item {
+  text-align: center;
+  margin-bottom: 10px;
 }

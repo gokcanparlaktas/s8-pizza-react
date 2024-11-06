@@ -2,6 +2,34 @@ import "./reset.css";
 import "./App.css";
 import { Header } from "./Components/Header";
 
+const sizes = [
+  { id: "s", boy: "Küçük" },
+  { id: "m", boy: "Orta" },
+  { id: "l", boy: "Büyük" },
+];
+
+const kalinlik = [
+  { id: "i", size: "İnce" },
+  { id: "n", size: "Normal" },
+  { id: "k", size: "Kalın" },
+];
+
+const ekstralar = [
+  { id: 1, name: "Pepperoni" },
+  { id: 2, name: "Domates" },
+  { id: 3, name: "Biber" },
+  { id: 4, name: "Sosis" },
+  { id: 5, name: "Mısır" },
+  { id: 6, name: "Sucuk" },
+  { id: 7, name: "Kanada Jambonu" },
+  { id: 8, name: "Ananas" },
+  { id: 9, name: "Tavuk Izgara" },
+  { id: 10, name: "Jalepeno" },
+  { id: 11, name: "Kabak" },
+  { id: 12, name: "Soğan" },
+  { id: 13, name: "Sarımsak" },
+];
+
 function App() {
   return (
     <div className="bg-main">
@@ -33,48 +61,64 @@ function App() {
             denir.
           </article>
 
-          <form className="barlow flex between">
-            <div className="flex-col gap-s">
-              <div className="radio">
+          <form className="barlow flex-col between">
+            <div className="flex between margin-bottom">
+              <div className="flex-col gap-s">
                 <h3 className="margin-bottom">
                   Boyut Seç <span style={{ color: "red" }}>*</span>
                 </h3>
-                <label htmlFor="size">
-                  <input type="radio" name="size" value="kucuk" />
-                  Küçük
-                </label>
+                {sizes.map((boyut) => (
+                  <label className="flex gap-s" htmlFor="size">
+                    <input
+                      key={boyut.id}
+                      type="radio"
+                      name="size"
+                      value={boyut.boy}
+                    />
+                    {boyut.boy}
+                  </label>
+                ))}
               </div>
-              <div className="radio">
-                <label htmlFor="size">
-                  <input type="radio" name="size" value="orta" />
-                  Orta
-                </label>
-              </div>
-              <div className="radio">
-                <label htmlFor="size">
-                  <input type="radio" name="size" value="buyuk" />
-                  Büyük
+
+              <div>
+                <label htmlFor="hamur" className="flex-col">
+                  <h3 className="margin-bottom">
+                    Hamur Kalınlığı <span style={{ color: "red" }}>*</span>
+                  </h3>
+                  <select defaultValue={-1}>
+                    <option value="-1" disabled="true">
+                      Kalınlık Seçiniz
+                    </option>
+                    {kalinlik.map((kalinlik) => (
+                      <option key={kalinlik.id} value={kalinlik.size}>
+                        {kalinlik.size}
+                      </option>
+                    ))}
+                  </select>
                 </label>
               </div>
             </div>
-
+            {/* CHECKBOX KISMI */}
             <div>
-              <label htmlFor="hamur" className="flex-col">
-                <h3 className="margin-bottom">
-                  Hamur Kalınlığı <span style={{ color: "red" }}>*</span>
-                </h3>
-                <select>
-                  <option name="hamur" value="ince">
-                    Ince
-                  </option>
-                  <option name="hamur" value="normal">
-                    Normal
-                  </option>
-                  <option name="hamur" value="kalin">
-                    Kalın
-                  </option>
-                </select>
-              </label>
+              <div className="margin-bottom-lg">
+                <h2>Ek Malzemeler</h2>
+                <p>
+                  En Fazla 10 malzeme seçebilirsiniz.
+                  <span style={{ color: "red", fontWeight: "600" }}>
+                    Tanesi 5 TL
+                  </span>
+                </p>
+              </div>
+              <div className="grid-container">
+                {ekstralar.map((ekstra) => (
+                  <div className="grid-item" key={ekstra.id}>
+                    <label className="flex gap-s margin-bottom">
+                      <input type="checkbox" value={ekstra.name} />
+                      {ekstra.name}
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
           </form>
         </div>
