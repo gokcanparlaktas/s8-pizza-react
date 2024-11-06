@@ -1,6 +1,7 @@
 import "./reset.css";
 import "./App.css";
 import { Header } from "./Components/Header";
+import { useState } from "react";
 
 const sizes = [
   { id: "s", boy: "Küçük" },
@@ -30,7 +31,38 @@ const ekstralar = [
   { id: 13, name: "Sarımsak" },
 ];
 
+const price = 85.5;
+
 function App() {
+  const [count, setCount] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(count * price);
+  const [secimler, setSecimler] = useState([]);
+
+  const decrement = (e) => {
+    e.preventDefault();
+
+    count > 1 ? setCount(count - 1) : setCount(1);
+  };
+
+  const increment = (e) => {
+    e.preventDefault();
+    setCount(count + 1);
+  };
+
+  const secimEkle = (event) => {
+    const { value, checked } = event.target;
+
+    // Eğer checkbox işaretlendiyse, değeri `secimler` array'ine ekle
+    if (checked) {
+      setSecimler((prevSecimler) => [...prevSecimler, value]);
+    } else {
+      // Eğer checkbox işareti kaldırıldıysa, array'den çıkar
+      setSecimler((prevSecimler) =>
+        prevSecimler.filter((item) => item !== value)
+      );
+    }
+  };
+
   return (
     <div className="bg-main">
       <header className="flex container-lg jc">
@@ -117,7 +149,11 @@ function App() {
                 {ekstralar.map((ekstra) => (
                   <div className="grid-item" key={ekstra.id}>
                     <label className="flex gap-s margin-bottom semi-bold">
-                      <input type="checkbox" value={ekstra.name} />
+                      <input
+                        onChange={secimEkle}
+                        type="checkbox"
+                        value={ekstra.name}
+                      />
                       {ekstra.name}
                     </label>
                   </div>
@@ -144,7 +180,45 @@ function App() {
               />
             </div>
 
-            <hr />
+            <hr className="margin-bottom-lg" />
+            {/*BUTON VE SİPARİŞ ALANI*/}
+            <div className="flex between">
+              <div className="buton-div">
+                <button className="buton" onClick={decrement}>
+                  -
+                </button>
+                <div className="counter semi-bold">{count}</div>
+                <button className="buton" onClick={increment}>
+                  +
+                </button>
+              </div>
+
+              <div className="order-container">
+                <div className="flex-col">
+                  <h3 className="padding-s">Sipariş Toplamı</h3>
+                  <div className="flex between padding-s semi-bold">
+                    <div>Seçimler:</div>
+                    <div>{secimler.length * 5} TL</div>
+                  </div>
+                  <div
+                    className="flex between padding-s margin-bottom semi-bold"
+                    style={{ color: "#CE2829" }}
+                  >
+                    <div>Toplam:</div>
+                    <div>{totalPrice * count + secimler.length * 5} TL</div>
+                  </div>
+                  <button
+                    className="buton semi-bold black padding-s"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      alert("Sipariş Verildi");
+                    }}
+                  >
+                    SİPARİŞ VER
+                  </button>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </main>
