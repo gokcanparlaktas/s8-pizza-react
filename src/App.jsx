@@ -205,7 +205,9 @@ function App() {
                     style={{ color: "#CE2829" }}
                   >
                     <div>Toplam:</div>
-                    <div>{totalPrice * count + secimler.length * 5} TL</div>
+                    <div>
+                      {totalPrice * count + secimler.length * 5 * count} TL
+                    </div>
                   </div>
                   <button
                     className="buton semi-bold black padding-s"
