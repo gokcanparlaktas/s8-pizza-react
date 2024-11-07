@@ -1,7 +1,7 @@
 import "./reset.css";
 import "./App.css";
 import { Header } from "./Components/Header";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const sizes = [
   { id: "s", boy: "Küçük" },
@@ -37,10 +37,18 @@ function App() {
   const [count, setCount] = useState(1);
   const [totalPrice, setTotalPrice] = useState(count * price);
   const [secimler, setSecimler] = useState([]);
+  const [boySecim, setBoySecim] = useState("");
+  const [kalinlikSecim, setKalinlikSecim] = useState("");
+  const [siparisNotu, setSiparisNotu] = useState("");
+  const [errors, setErrors] = useState({});
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    validateForm();
+  }, [secimler, boySecim, kalinlikSecim, count, siparisNotu]);
 
   const decrement = (e) => {
     e.preventDefault();
-
     count > 1 ? setCount(count - 1) : setCount(1);
   };
 
@@ -52,14 +60,57 @@ function App() {
   const secimEkle = (event) => {
     const { value, checked } = event.target;
 
-    // Eğer checkbox işaretlendiyse, değeri `secimler` array'ine ekle
     if (checked) {
       setSecimler((prevSecimler) => [...prevSecimler, value]);
     } else {
-      // Eğer checkbox işareti kaldırıldıysa, array'den çıkar
       setSecimler((prevSecimler) =>
         prevSecimler.filter((item) => item !== value)
       );
+    }
+  };
+
+  const handleSizeChange = (event) => {
+    setBoySecim(event.target.value);
+  };
+
+  const handleDoughChange = (event) => {
+    setKalinlikSecim(event.target.value);
+  };
+
+  const handleOrderNoteChange = (event) => {
+    setSiparisNotu(event.target.value);
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!boySecim) {
+      newErrors.size = "Bir boyut seçmelisiniz.";
+    }
+
+    if (!kalinlikSecim) {
+      newErrors.dough = "Hamur kalınlığı seçmelisiniz.";
+    }
+
+    if (secimler.length < 3) {
+      newErrors.extras = "En az 3 malzeme seçmelisiniz.";
+    }
+
+    if (siparisNotu && siparisNotu.length < 5) {
+      newErrors.orderNote = "Sipariş notu en az 5 karakter olmalıdır.";
+    } else if (!siparisNotu) {
+      newErrors.siparisNotu = "Sipariş notu boş bırakılamaz.";
+    }
+
+    setErrors(newErrors);
+
+    setIsValid(Object.keys(newErrors).length === 0);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (isValid) {
+      alert("Sipariş Verildi");
     }
   };
 
@@ -84,7 +135,7 @@ function App() {
             </div>
           </div>
           <article className="article">
-            Frontent Dev olarak hala position:absolute kullanıyorsan bu çok acı
+            Frontend Dev olarak hala position:absolute kullanıyorsan bu çok acı
             pizza tam sana göre. Pizza, domates, peynir ve genellikle çeşitli
             diğer malzemelerle kaplanmış, daha sonra geleneksel olarak odun
             ateşinde bir fırında yüksek sıcaklıkta pişirilen, genellikle
@@ -92,83 +143,86 @@ function App() {
             kökenli lezzetli bir yemektir. Küçük bir pizzaya bazen pizzetta
             denir.
           </article>
-          {/*FORM BAŞLANGICI VE RADİO BUTTONLAR*/}
-          <form className="barlow flex-col between">
+          <form className="barlow flex-col between" onSubmit={handleSubmit}>
             <div className="flex between margin-bottom">
               <div className="flex-col gap-s">
                 <h3 className="margin-bottom">
                   Boyut Seç <span style={{ color: "red" }}>*</span>
                 </h3>
                 {sizes.map((boyut) => (
-                  <label className="flex gap-s" htmlFor="size">
+                  <label className="flex gap-s" key={boyut.id}>
                     <input
-                      key={boyut.id}
                       type="radio"
                       name="size"
                       value={boyut.boy}
+                      checked={boySecim === boyut.boy}
+                      onChange={handleSizeChange}
                     />
                     {boyut.boy}
                   </label>
                 ))}
+                {errors.size && <p style={{ color: "red" }}>{errors.size}</p>}
               </div>
-              {/*DROPDOWN KISMI*/}
+
               <div>
                 <label htmlFor="hamur" className="flex-col">
                   <h3 className="margin-bottom">
                     Hamur Kalınlığı <span style={{ color: "red" }}>*</span>
                   </h3>
-                  <select defaultValue={-1}>
-                    <option value="-1" disabled="true">
+                  <select
+                    value={kalinlikSecim}
+                    onChange={handleDoughChange}
+                    disabled={!boySecim}
+                  >
+                    <option value="" disabled>
                       Kalınlık Seçiniz
                     </option>
                     {kalinlik.map((kalinlik) => (
-                      <option
-                        className="semi-bold"
-                        key={kalinlik.id}
-                        value={kalinlik.size}
-                      >
+                      <option key={kalinlik.id} value={kalinlik.size}>
                         {kalinlik.size}
                       </option>
                     ))}
                   </select>
                 </label>
+                {errors.dough && <p style={{ color: "red" }}>{errors.dough}</p>}
               </div>
             </div>
-            {/* CHECKBOX KISMI */}
+
             <div>
-              <div className="margin-bottom-lg">
-                <h2>Ek Malzemeler</h2>
-                <p>
-                  En Fazla 10 malzeme seçebilirsiniz.
-                  <span style={{ color: "red", fontWeight: "600" }}>
-                    Tanesi 5 TL
-                  </span>
-                </p>
-              </div>
+              <h2>Ek Malzemeler</h2>
+              <p className="margin-bottom">
+                En az 3, fazla 10 malzeme seçebilirsiniz.
+                <span style={{ color: "red", fontWeight: "600" }}>
+                  {" "}
+                  Tanesi 5 TL
+                </span>
+              </p>
               <div className="grid-container">
                 {ekstralar.map((ekstra) => (
                   <div className="grid-item" key={ekstra.id}>
                     <label className="flex gap-s margin-bottom semi-bold">
                       <input
-                        onChange={secimEkle}
                         type="checkbox"
                         value={ekstra.name}
+                        onChange={secimEkle}
+                        disabled={secimler.length >= 10}
                       />
                       {ekstra.name}
                     </label>
                   </div>
                 ))}
               </div>
+              {errors.extras && <p style={{ color: "red" }}>{errors.extras}</p>}
             </div>
-            {/*TEXT AREA KISMI*/}
 
             <div className="flex-col margin-bottom-lg">
               <label htmlFor="siparisNotu">
-                {" "}
                 <h3>Sipariş Notu:</h3>
               </label>
               <textarea
                 name="siparisNotu"
+                value={siparisNotu}
+                onChange={handleOrderNoteChange}
                 placeholder="Siparişine eklemek istediğin bir not var mı?"
                 style={{
                   maxWidth: "960px",
@@ -178,10 +232,12 @@ function App() {
                 cols={5}
                 rows={4}
               />
+              {errors.siparisNotu && (
+                <p style={{ color: "red" }}>{errors.siparisNotu}</p>
+              )}
             </div>
 
             <hr className="margin-bottom-lg" />
-            {/*BUTON VE SİPARİŞ ALANI*/}
             <div className="flex between">
               <div className="buton-div">
                 <button className="buton" onClick={decrement}>
@@ -210,11 +266,9 @@ function App() {
                     </div>
                   </div>
                   <button
+                    type="submit"
                     className="buton semi-bold black padding-s"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      alert("Sipariş Verildi");
-                    }}
+                    disabled={!isValid}
                   >
                     SİPARİŞ VER
                   </button>
