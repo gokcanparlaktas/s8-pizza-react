@@ -2,6 +2,7 @@ import "./reset.css";
 import "./App.css";
 import { Header } from "./Components/Header";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const sizes = [
   { id: "s", boy: "Küçük" },
@@ -31,21 +32,32 @@ const ekstralar = [
   { id: 13, name: "Sarımsak" },
 ];
 
-const price = 85.5;
-
 function App() {
   const [count, setCount] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(count * price);
-  const [secimler, setSecimler] = useState([]);
-  const [boySecim, setBoySecim] = useState("");
-  const [kalinlikSecim, setKalinlikSecim] = useState("");
-  const [siparisNotu, setSiparisNotu] = useState("");
+  const [formData, setFormData] = useState({
+    price: 85.5,
+    boySecim: "",
+    kalinlikSecim: "",
+    secimler: [],
+    siparisNotu: "",
+    total: 85.5 * count,
+    npmHizindaTeslimat: false,
+  });
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
 
   useEffect(() => {
+    const toplam =
+      formData.price * count + formData.secimler.length * 5 * count;
+    setFormData((prevData) => ({
+      ...prevData,
+      total: toplam,
+    }));
+  }, [formData.price, count, formData.secimler]);
+
+  useEffect(() => {
     validateForm();
-  }, [secimler, boySecim, kalinlikSecim, count, siparisNotu]);
+  }, [formData, count]);
 
   const decrement = (e) => {
     e.preventDefault();
@@ -57,60 +69,67 @@ function App() {
     setCount(count + 1);
   };
 
-  const secimEkle = (event) => {
-    const { value, checked } = event.target;
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
 
-    if (checked) {
-      setSecimler((prevSecimler) => [...prevSecimler, value]);
-    } else {
-      setSecimler((prevSecimler) =>
-        prevSecimler.filter((item) => item !== value)
-      );
-    }
-  };
-
-  const handleSizeChange = (event) => {
-    setBoySecim(event.target.value);
-  };
-
-  const handleDoughChange = (event) => {
-    setKalinlikSecim(event.target.value);
-  };
-
-  const handleOrderNoteChange = (event) => {
-    setSiparisNotu(event.target.value);
+    setFormData((prevData) => {
+      if (type === "checkbox") {
+        if (name === "npmHizindaTeslimat") {
+          return {
+            ...prevData,
+            npmHizindaTeslimat: checked,
+            total: checked ? prevData.total + 50 : prevData.total - 50,
+          };
+        } else {
+          const updatedSecimler = checked
+            ? [...prevData.secimler, value]
+            : prevData.secimler.filter((item) => item !== value);
+          return { ...prevData, secimler: updatedSecimler };
+        }
+      }
+      return { ...prevData, [name]: value };
+    });
   };
 
   const validateForm = () => {
     const newErrors = {};
 
-    if (!boySecim) {
+    if (!formData.boySecim) {
       newErrors.size = "Bir boyut seçmelisiniz.";
     }
 
-    if (!kalinlikSecim) {
+    if (!formData.kalinlikSecim) {
       newErrors.dough = "Hamur kalınlığı seçmelisiniz.";
     }
 
-    if (secimler.length < 3) {
+    if (formData.secimler.length < 3) {
       newErrors.extras = "En az 3 malzeme seçmelisiniz.";
     }
 
-    if (siparisNotu && siparisNotu.length < 5) {
-      newErrors.orderNote = "Sipariş notu en az 5 karakter olmalıdır.";
-    } else if (!siparisNotu) {
+    if (!formData.siparisNotu) {
       newErrors.siparisNotu = "Sipariş notu boş bırakılamaz.";
+    } else if (formData.siparisNotu.length < 5) {
+      newErrors.siparisNotu = "Sipariş notu en az 5 karakter olmalıdır.";
     }
 
     setErrors(newErrors);
-
     setIsValid(Object.keys(newErrors).length === 0);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
     if (isValid) {
-      alert("Sipariş Verildi");
+      axios
+        .post("https://reqres.in/api/pizza", formData)
+        .then((response) => {
+          alert("Sipariş başarıyla gönderildi!");
+          console.log("Sipariş Başarılı:", response.data);
+        })
+        .catch((error) => {
+          alert("Bir hata oluştu, lütfen tekrar deneyin.");
+          console.error("Sipariş gönderilirken hata:", error);
+        });
     }
   };
 
@@ -124,7 +143,7 @@ function App() {
         <div className="container-md flex-col gap-s barlow">
           <h2>Position Absolute Acılı Pizza</h2>
           <div className="flex between">
-            <p className="pricetag">85.50₺</p>
+            <p className="pricetag">{formData.price} TL</p>
             <div className="flex gap-m review">
               <div>
                 <p>Puan</p>
@@ -153,10 +172,10 @@ function App() {
                   <label className="flex gap-s" key={boyut.id}>
                     <input
                       type="radio"
-                      name="size"
+                      name="boySecim"
                       value={boyut.boy}
-                      checked={boySecim === boyut.boy}
-                      onChange={handleSizeChange}
+                      checked={formData.boySecim === boyut.boy}
+                      onChange={handleChange}
                     />
                     {boyut.boy}
                   </label>
@@ -170,9 +189,10 @@ function App() {
                     Hamur Kalınlığı <span style={{ color: "red" }}>*</span>
                   </h3>
                   <select
-                    value={kalinlikSecim}
-                    onChange={handleDoughChange}
-                    disabled={!boySecim}
+                    name="kalinlikSecim"
+                    value={formData.kalinlikSecim}
+                    onChange={handleChange}
+                    disabled={!formData.boySecim}
                   >
                     <option value="" disabled>
                       Kalınlık Seçiniz
@@ -203,9 +223,10 @@ function App() {
                     <label className="flex gap-s margin-bottom semi-bold">
                       <input
                         type="checkbox"
+                        name="secimler"
                         value={ekstra.name}
-                        onChange={secimEkle}
-                        disabled={secimler.length >= 10}
+                        onChange={handleChange}
+                        disabled={formData.secimler.length >= 10}
                       />
                       {ekstra.name}
                     </label>
@@ -221,8 +242,8 @@ function App() {
               </label>
               <textarea
                 name="siparisNotu"
-                value={siparisNotu}
-                onChange={handleOrderNoteChange}
+                value={formData.siparisNotu}
+                onChange={handleChange}
                 placeholder="Siparişine eklemek istediğin bir not var mı?"
                 style={{
                   maxWidth: "960px",
@@ -236,6 +257,17 @@ function App() {
                 <p style={{ color: "red" }}>{errors.siparisNotu}</p>
               )}
             </div>
+            <hr />
+            <label className="flex gap-s semi-bold padding-s">
+              <input
+                type="checkbox"
+                name="npmHizindaTeslimat"
+                checked={formData.npmHizindaTeslimat}
+                onChange={handleChange}
+              />
+              Npm Hızında Acil Teslimat 🛵💨
+              <span style={{ color: "red" }}>(+50 TL)</span>
+            </label>
 
             <hr className="margin-bottom-lg" />
             <div className="flex between">
@@ -254,7 +286,7 @@ function App() {
                   <h3 className="padding-s">Sipariş Toplamı</h3>
                   <div className="flex between padding-s semi-bold">
                     <div>Seçimler:</div>
-                    <div>{secimler.length * 5} TL</div>
+                    <div>{formData.secimler.length * 5} TL</div>
                   </div>
                   <div
                     className="flex between padding-s margin-bottom semi-bold"
@@ -262,7 +294,8 @@ function App() {
                   >
                     <div>Toplam:</div>
                     <div>
-                      {totalPrice * count + secimler.length * 5 * count} TL
+                      {formData.total}
+                      TL
                     </div>
                   </div>
                   <button
