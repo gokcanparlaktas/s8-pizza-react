@@ -1,12 +1,20 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 export function Header() {
   return (
-    <div className="container-lg header flex-col">
-      <div className="container-s">
+    <div className="flex-col">
+      <div className=" flex-col text-center">
         <h1>Teknolojik Yemekler</h1>
       </div>
-      <div className="container-md">Buraya sayfalar gelecek</div>
+      <div>
+        <a className="header-link" href="#">
+          Ana Sayfa
+        </a>{" "}
+        <a className="header-link semi-bold" href="/siparisFormu.jsx">
+          -> Sipariş Formu
+        </a>
+      </div>
     </div>
   );
 }

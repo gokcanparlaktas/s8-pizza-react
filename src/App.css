@@ -123,7 +123,7 @@ h3 {
 }
 .buton {
   background-color: #fdc913;
-  color: white;
+  color: #faf7f2;
   border: none;
   border-radius: 5px;
   padding: 0.5rem 1rem;
@@ -150,4 +150,22 @@ h3 {
 
 .black {
   color: #292929;
+}
+.text-left {
+  margin: 0;
+}
+.text-center {
+  margin: 0 auto;
+}
+.reset-margin {
+  margin: 0;
+}
+.reset-padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+.header-link {
+  color: #faf7f2;
+  text-decoration: none;
+  font-family: "Barlow";
 }
