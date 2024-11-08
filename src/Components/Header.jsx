@@ -12,7 +12,7 @@ export function Header() {
           Ana Sayfa
         </a>{" "}
         <a className="header-link semi-bold" href="/siparisFormu.jsx">
-          -> Sipariş Formu
+          -{">"} Sipariş Formu
         </a>
       </div>
     </div>
