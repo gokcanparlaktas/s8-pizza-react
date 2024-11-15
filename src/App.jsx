@@ -1,19 +1,50 @@
-import "./reset.css";
 import "./App.css";
-import { Header } from "./Components/Header";
+import { useState, useEffect } from "react";
 import SiparisFormu from "./Components/siparisFormu";
-
+import { Header } from "./Components/Header";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 function App() {
-  return (
-    <div className="bg-main">
-      <header className="container-md header flex-col gap-s barlow">
-        <Header />
-      </header>
+  const [formData, setFormData] = useState({
+    price: 85.5,
+    boySecim: "",
+    kalinlikSecim: "",
+    secimler: [],
+    siparisNotu: "",
+    total: 85.5,
+    npmHizindaTeslimat: false,
+  });
 
-      <main className="bg-secondary p-ts reset-padding ">
-        <SiparisFormu />
-      </main>
-    </div>
+  const [count, setCount] = useState(1);
+
+  useEffect(() => {
+    const toplam =
+      formData.price * count + formData.secimler.length * 5 * count;
+    setFormData((prevData) => ({
+      ...prevData,
+      total: toplam,
+    }));
+  }, [formData.price, count, formData.secimler]);
+
+  return (
+    <BrowserRouter>
+      <div className="bg-main">
+        <header className="container-md header flex-col gap-s barlow reset-padding">
+          <Header />
+        </header>
+        <main>
+          <Switch>
+            <Route path="/siparisFormu">
+              <SiparisFormu
+                formData={formData}
+                setFormData={setFormData}
+                count={count}
+                setCount={setCount}
+              />
+            </Route>
+          </Switch>
+        </main>
+      </div>
+    </BrowserRouter>
   );
 }
 
