@@ -2,9 +2,22 @@
   color: white;
   font-family: "Roboto Condensed";
   padding: 1rem;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    transition-duration: 1s;
+  }
 }
 .barlow {
   font-family: "Barlow";
+}
+
+.none {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .article {
