@@ -9,6 +9,63 @@
     transition-duration: 1s;
   }
 }
+
+.hero-section {
+  background-image: url(/home-banner.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-width: 375px;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+  p {
+    font-family: "Satisfy";
+    font-weight: 400;
+    font-size: 2rem;
+    text-align: center;
+    color: #fdc913;
+  }
+  h1 {
+    font-family: "Londrina Solid";
+    font-weight: 400;
+    font-size: 3rem;
+    text-align: center;
+    color: white;
+  }
+  h2 {
+    font-family: "Roboto Condensed";
+    font-weight: 300;
+    font-size: 5.3rem;
+    text-align: center;
+    color: white;
+    line-height: 6rem;
+    letter-spacing: 1.5px;
+  }
+  button {
+    font-family: "Barlow";
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    padding: 0.5rem 2.5rem;
+    border-radius: 25px;
+    border: none;
+    background-color: #fdc913;
+  }
+}
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+.mt-m {
+  margin-top: 2.5rem;
+}
 .barlow {
   font-family: "Barlow";
 }

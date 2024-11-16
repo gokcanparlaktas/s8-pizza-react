@@ -1,6 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import SiparisFormu from "./Components/siparisFormu";
+import Main from "./Components/Main";
 import { Header } from "./Components/Header";
 import { BrowserRouter, Switch, Route, NavLink } from "react-router-dom";
 function App() {
@@ -34,6 +35,9 @@ function App() {
 
         <main>
           <Switch>
+            <Route exact path="/">
+              <Main />
+            </Route>
             <Route path="/siparisFormu">
               <nav className="container-md flex header gap-s barlow reset-padding">
                 <NavLink
