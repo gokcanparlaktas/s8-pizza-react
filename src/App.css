@@ -162,6 +162,9 @@ h3 {
 .between {
   justify-content: space-between;
 }
+.margin-bottom-zero {
+  margin-bottom: 0;
+}
 .margin-bottom {
   margin-bottom: 1rem;
 }
@@ -238,4 +241,30 @@ h3 {
   color: #faf7f2;
   text-decoration: none;
   font-family: "Barlow";
+}
+.white {
+  color: #faf7f2;
+}
+.order-bg {
+  background-color: rgba(253, 201, 19, 0.8);
+  padding: 1rem 3rem;
+  border-radius: 10px;
+}
+strong {
+  font-weight: 700;
+  color: rgb(11, 129, 1);
+  font-family: "Barlow";
+  font-size: 1.2rem;
+}
+.bigger {
+  font-size: 1.2rem;
+}
+
+h4 {
+  font-size: 2rem;
+  text-align: end;
+}
+
+.big {
+  font-size: 2rem;
 }

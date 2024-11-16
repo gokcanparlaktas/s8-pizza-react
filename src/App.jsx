@@ -2,32 +2,38 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import SiparisFormu from "./Components/siparisFormu";
 import Main from "./Components/Main";
+import SiparisOnayi from "./Components/SiparisOnayi";
 import { Header } from "./Components/Header";
 import { BrowserRouter, Switch, Route, NavLink } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { puan } from "./Components/secenekler";
 function App() {
   const [formData, setFormData] = useState({
-    price: 85.5,
+    fiyat: 85.5,
     boySecim: "",
     kalinlikSecim: "",
     secimler: [],
     siparisNotu: "",
     total: 85.5,
     npmHizindaTeslimat: false,
+    pizzaSecim: puan.isim,
   });
 
   const [count, setCount] = useState(1);
 
   useEffect(() => {
     const toplam =
-      formData.price * count + formData.secimler.length * 5 * count;
+      formData.fiyat * count + formData.secimler.length * 5 * count;
     setFormData((prevData) => ({
       ...prevData,
       total: toplam,
     }));
-  }, [formData.price, count, formData.secimler]);
+  }, [formData.fiyat, count, formData.secimler]);
 
   return (
     <BrowserRouter>
+      <ToastContainer />
       <div className="bg-main">
         <header className="container-md header flex-col gap-s barlow reset-padding">
           <Header />
@@ -59,12 +65,17 @@ function App() {
                   Sipariş Formu
                 </NavLink>
               </nav>
+
               <SiparisFormu
                 formData={formData}
                 setFormData={setFormData}
                 count={count}
                 setCount={setCount}
               />
+            </Route>
+
+            <Route path="/siparis-onayi">
+              <SiparisOnayi formData={formData} />
             </Route>
           </Switch>
         </main>

@@ -1,10 +1,12 @@
 import { sizes, kalinlik, ekstralar, puan } from "./secenekler";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 function SiparisFormu({ formData, setFormData, count, setCount }) {
   const [errors, setErrors] = useState({});
   const [isValid, setIsValid] = useState(false);
-
+  const history = useHistory();
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
 
@@ -31,15 +33,15 @@ function SiparisFormu({ formData, setFormData, count, setCount }) {
     const newErrors = {};
 
     if (!formData.boySecim) {
-      newErrors.size = "Bir boyut seçmelisiniz.";
+      newErrors.boyut = "Bir boyut seçmelisiniz.";
     }
 
     if (!formData.kalinlikSecim) {
-      newErrors.dough = "Hamur kalınlığı seçmelisiniz.";
+      newErrors.hamur = "Hamur kalınlığı seçmelisiniz.";
     }
 
     if (formData.secimler.length < 3) {
-      newErrors.extras = "En az 3 malzeme seçmelisiniz.";
+      newErrors.ekstralar = "En az 3 malzeme seçmelisiniz.";
     }
 
     if (!formData.siparisNotu) {
@@ -73,21 +75,21 @@ function SiparisFormu({ formData, setFormData, count, setCount }) {
       axios
         .post("https://reqres.in/api/pizza", formData)
         .then((response) => {
-          alert("Sipariş başarıyla gönderildi!");
-          console.log("Sipariş Başarılı:", response.data);
+          toast.success("Sipariş başarılıyla alındı, afiyet olsun");
+          history.push("/siparis-onayi");
         })
         .catch((error) => {
-          alert("Bir hata oluştu, lütfen tekrar deneyin.");
-          console.error("Sipariş gönderilirken hata:", error);
+          toast.error("Bir hata oluştu, lütfen tekrar deneyin.");
         });
     }
   };
+
   return (
     <div className="bg-secondary p-ts reset-padding">
       <div className="container-md flex-col gap-s barlow">
         <h2>{puan.isim}</h2>
         <div className="flex between">
-          <p className="pricetag">{formData.price} TL</p>
+          <p className="pricetag">{formData.fiyat} TL</p>
           <div className="flex gap-m review">
             <div>
               <p>⭐ ({puan.p})</p>
@@ -123,7 +125,7 @@ function SiparisFormu({ formData, setFormData, count, setCount }) {
                   {boyut.boy}
                 </label>
               ))}
-              {errors.size && <p style={{ color: "red" }}>{errors.size}</p>}
+              {errors.boyut && <p style={{ color: "red" }}>{errors.boyut}</p>}
             </div>
 
             <div>
@@ -146,7 +148,7 @@ function SiparisFormu({ formData, setFormData, count, setCount }) {
                   ))}
                 </select>
               </label>
-              {errors.dough && <p style={{ color: "red" }}>{errors.dough}</p>}
+              {errors.hamur && <p style={{ color: "red" }}>{errors.hamur}</p>}
             </div>
           </div>
 
@@ -175,7 +177,9 @@ function SiparisFormu({ formData, setFormData, count, setCount }) {
                 </div>
               ))}
             </div>
-            {errors.extras && <p style={{ color: "red" }}>{errors.extras}</p>}
+            {errors.ekstralar && (
+              <p style={{ color: "red" }}>{errors.ekstralar}</p>
+            )}
           </div>
 
           <div className="flex-col margin-bottom-lg">
