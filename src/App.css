@@ -268,3 +268,8 @@ h4 {
 .big {
   font-size: 2rem;
 }
+.deli {
+  font-size: 1.3rem;
+  color: #ce2829;
+  text-align: end;
+}

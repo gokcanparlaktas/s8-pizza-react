@@ -24,7 +24,9 @@ function App() {
 
   useEffect(() => {
     const toplam =
-      formData.fiyat * count + formData.secimler.length * 5 * count;
+      formData.fiyat * count +
+      formData.secimler.length * 5 * count +
+      (formData.npmHizindaTeslimat === true ? +50 : 0);
     setFormData((prevData) => ({
       ...prevData,
       total: toplam,
@@ -75,7 +77,7 @@ function App() {
             </Route>
 
             <Route path="/siparis-onayi">
-              <SiparisOnayi formData={formData} />
+              <SiparisOnayi formData={formData} count={count} />
             </Route>
           </Switch>
         </main>
