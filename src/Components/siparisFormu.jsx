@@ -73,7 +73,7 @@ function SiparisFormu({ formData, setFormData, count, setCount }) {
 
     if (isValid) {
       axios
-        .post("https://reqres.in/api/pizza", formData)
+        .post("https://httpbin.org/post", formData)
         .then((response) => {
           toast.success("Sipariş başarılıyla alındı, afiyet olsun");
           history.push("/siparis-onayi");
