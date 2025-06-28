@@ -37,7 +37,7 @@ function App() {
     <BrowserRouter>
       <ToastContainer />
       <div className="bg-main">
-        <header className="container-md header flex-col gap-s barlow reset-padding">
+        <header className="container-md header flex-col gap-s barlow ">
           <Header />
         </header>
 
@@ -47,7 +47,7 @@ function App() {
               <Main />
             </Route>
             <Route path="/siparisFormu">
-              <nav className="container-md flex header gap-s barlow reset-padding">
+              <nav className="container-md flex header gap-s barlow ">
                 <NavLink
                   to="/"
                   className={(isActive) =>

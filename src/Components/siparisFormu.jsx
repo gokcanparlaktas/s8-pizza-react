@@ -85,7 +85,7 @@ function SiparisFormu({ formData, setFormData, count, setCount }) {
   };
 
   return (
-    <div className="bg-secondary p-ts reset-padding">
+    <div className="bg-secondary p-ts ">
       <div className="container-md flex-col gap-s barlow">
         <h2>{puan.isim}</h2>
         <div className="flex between">
@@ -192,8 +192,9 @@ function SiparisFormu({ formData, setFormData, count, setCount }) {
               onChange={handleChange}
               placeholder="Siparişine eklemek istediğin bir not var mı?"
               style={{
+                width: "100%",
                 maxWidth: "960px",
-                minWidth: "376px",
+
                 borderRadius: "5px",
               }}
               cols={5}
@@ -216,7 +217,7 @@ function SiparisFormu({ formData, setFormData, count, setCount }) {
           </label>
 
           <hr className="margin-bottom-lg" />
-          <div className="flex between">
+          <div className="flex between wrap-sm">
             <div className="buton-div">
               <button className="buton" onClick={decrement}>
                 -
